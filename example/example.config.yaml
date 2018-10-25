@@ -1,0 +1,31 @@
+species: arabidopsis
+
+seq_info:
+  type: BS-Seq
+  mode: PE
+  replicate: 2
+
+path: /home/xfu/Git/BS-Seq2/fastq
+
+samples:
+  - Col_0_1
+  - suvh13_1
+  - suvh13_2
+  - suvh1378_1
+  - suvh1378_2
+  - ros1_4_1
+  - ros1_4_2
+  - duf6_1
+  - duf6_2
+
+# on HPC
+#Rscript_path: /cluster/home/xfu/R/3.5.1/bin/Rscript
+#conda_path: /cluster/home/xfu/miniconda2/envs/gmatic/bin
+#index: /cluster/home/xfu/Gmatic7/genome/tair10/BRAT-bw
+#ref_file: /cluster/home/xfu/Gmatic7/genome/tair10/file_with_references.txt
+
+# on local machine
+Rscript_path: /home/xfu/R/3.2.4/bin/Rscript
+conda_path: /home/xfu/miniconda2/envs/gmatic/bin
+index: /home/xfu/Gmatic7/genome/tair10/BRAT-bw
+ref_file: /home/xfu/Gmatic7/genome/tair10/file_with_references.txt

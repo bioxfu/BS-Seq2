@@ -1,0 +1,16 @@
+.snakemake/
+DMR/
+DMR_workflow.sh
+*.xlsx
+Snakefile
+brat_bw-2.0.1/
+clean/
+config.yaml
+count/
+dep4/
+fastq/
+fastqc/
+mapping/
+nohup.log
+stat/
+tmp/
