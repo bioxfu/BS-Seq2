@@ -1,3 +1,7 @@
+.Rhistory
+anno/
+meth/
+results/
 .snakemake/
 DMR/
 DMR_workflow.sh
