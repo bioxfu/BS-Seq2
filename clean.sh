@@ -9,3 +9,4 @@ rm mapping/*.out
 rm mapping/*.out.single_mates
 rm mapping/*_pair_results*
 rm mapping/*_single_results*
+rm track/*.bedgraph

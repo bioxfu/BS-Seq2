@@ -9,9 +9,11 @@ MUT4_1=duf6_1
 MUT4_2=duf6_2
 NUM_LIB=9
 MUT=( $MUT1_1 $MUT1_2 $MUT2_1 $MUT2_2 $MUT3_1 $MUT3_2 $MUT4_1 $MUT4_2 )
+ALL=( $MUT1_1 $MUT1_2 $MUT2_1 $MUT2_2 $MUT3_1 $MUT3_2 $MUT4_1 $MUT4_2 $WT)
 
 TXDB=/home/xfu/Gmatic7/gene/tair10/txdb/tair10_txdb.sqlite
 GENE_ANNO=/home/xfu/Gmatic7/gene/tair10/tair10_gene_anno.tsv
+IGV=/home/xfu/igv/genomes/tair10.genome
 
 
 ## Retaining the cytosines that have depth >=4 in all libraries
@@ -45,9 +47,13 @@ cut -f1 anno/*hypo*.xls|grep -v 'geneId'|sort|uniq > anno/hypo_geneId
 Rscript script/hyper_hypo_table.R $GENE_ANNO
 rm anno/hyper_geneId anno/hypo_geneId
 
+## build track for IGV
+mkdir track
+printf '%s\n' "${ALL[@]}"|parallel --gnu "script/dep4_to_bedgraph.sh dep4/{}_dep4_Meth.txt > track/{}_dep4_Meth.bedgraph"
+printf '%s\n' "${ALL[@]}"|parallel --gnu "igvtools toTDF track/{}_dep4_Meth.bedgraph track/{}_dep4_Meth.tdf $IGV"
+
 ## pack all the results
 DATE=`date +"%Y%m%d"`
 mkdir -p results/${DATE}
-cp -r anno meth results/${DATE}
+cp -r anno meth track results/${DATE}
 tar czf results/BS-Seq_${DATE}.tar.gz results/${DATE}
-
