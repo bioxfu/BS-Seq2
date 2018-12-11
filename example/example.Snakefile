@@ -122,11 +122,13 @@ rule brat_acgt_count:
 		f1 = 'mapping/{sample}_pair_results.nodupl',
 		f2 = 'mapping/{sample}_single_results.nodupl'
 	output:
-		'count/{sample}_methylome'
+		prefix = 'count/{sample}_methylome',
+		forw = 'count/{sample}_methylome_forw.txt',
+		rev = 'count/{sample}_methylome_rev.txt'
 	params:
 		ref_file = config['ref_file']
 	shell:
-		"touch {output}; brat_bw-2.0.1/acgt-count -r {params.ref_file} -P {output} -p {input.f1} -s {input.f2} -B"
+		"touch {output.prefix}; brat_bw-2.0.1/acgt-count -r {params.ref_file} -P {output.prefix} -p {input.f1} -s {input.f2} -B"
 
 rule combine_forw_rev:
 	input:
