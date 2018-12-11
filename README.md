@@ -1,11 +1,4 @@
 # BS-Seq2 Workflow Tutorial
-### 0. Install BRAT-BW (optional)
-```
-tar zxf brat_bw-2.0.1.tar.gz
-cd brat_bw-2.0.1/
-make
-```
-
 ### 1. Make project directory
 ```
 # the project directory contains specific GROUP name and current DATE
@@ -19,6 +12,11 @@ mkdir ~/Project/${GROUP}_${DATE}
 cd ~/Project/${GROUP}_${DATE}
 git clone https://github.com/bioxfu/BS-Seq2
 cd BS-Seq2
+
+tar zxf brat_bw-2.0.1.tar.gz
+cd brat_bw-2.0.1/
+make
+cd ..
 ```
 
 ### 3. Copy/Download the raw data
@@ -34,9 +32,14 @@ DATAPATH=/the/path/of/the/raw/data/on/HPC
 
 ### 4. Rename the raw data
 ```
+# if some samples are sequenced by multiple runs
+# dry run to check if mv command is correct
+./script/combine_multiple_runs.sh --dry-run
+# then do it 
+./script/combine_multiple_runs.sh 
+
 # dry run to check if mv command is correct
 ./script/rename_rawdata.sh --dry-run
-
 # then do it 
 ./script/rename_rawdata.sh
 ```
