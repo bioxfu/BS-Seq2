@@ -150,4 +150,4 @@ rule brat_convert2sam:
 		forw = 'sam/{sample}_mapped_forw.sam',
 		rev = 'sam/{sample}_mapped_rev.sam'
 	shell:
-		"if [ -f {output.forw} ]; then rm {output.forw} {output.rev}; fi; touch {output.prefix}; brat_bw-2.0.1/convert-to-sam -P {output.prefix} -p {input.f1} -s {input.f2}"
+		"if [ -f {output.forw} ]; then rm {output.forw} {output.rev}; fi; touch {output.prefix}; brat_bw-2.0.1/convert_to_sam -P {output.prefix} -p {input.f1} -s {input.f2}"
