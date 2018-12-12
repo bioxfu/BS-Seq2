@@ -12,8 +12,7 @@ rule all:
 		expand('mapping/{sample}.out.nodupl', sample=config['samples']),
 		expand('mapping/{sample}.out.single_mates.nodupl', sample=config['samples']),
 		expand('count/{sample}_methylome_all.txt', sample=config['samples']),
-		expand('sam/{sample}_mapped_forw.sam', sample=config['samples']),
-		expand('sam/{sample}_mapped_rev.sam', sample=config['samples']),
+		expand('bed/{sample}_mapped.bed', sample=config['samples']),
 
 rule fastqc_raw_PE:
 	input:
@@ -153,3 +152,12 @@ rule brat_convert2sam:
 		#"if [ -f {output.forw} ]; then rm {output.forw} {output.rev}; fi; touch {output.prefix}; brat_bw-2.0.1/convert_to_sam -P {output.prefix} -p {input.f1} -s {input.f2}"
 		# ERROR occur when using -s mapping/{sample}_single_results.nodupl
 		"if [ -f {output.forw} ]; then rm {output.forw} {output.rev}; fi; touch {output.prefix}; brat_bw-2.0.1/convert_to_sam -P {output.prefix} -p {input.f1}"
+
+rule sam2bed:
+	input:
+		forw = 'sam/{sample}_mapped_forw.sam',
+		rev = 'sam/{sample}_mapped_rev.sam'
+	output:
+		'bed/{sample}_mapped.bed'
+	shell:
+		"script/sam2bed.sh {input.forw} {input.rev} {output}"
