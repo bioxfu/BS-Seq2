@@ -12,6 +12,8 @@ rule all:
 		expand('mapping/{sample}.out.nodupl', sample=config['samples']),
 		expand('mapping/{sample}.out.single_mates.nodupl', sample=config['samples']),
 		expand('count/{sample}_methylome_all.txt', sample=config['samples']),
+		expand('sam/{sample}_mapped_forw.sam', sample=config['samples']),
+		expand('sam/{sample}_mapped_rev.sam', sample=config['samples']),
 
 rule fastqc_raw_PE:
 	input:
@@ -138,3 +140,14 @@ rule combine_forw_rev:
 		'count/{sample}_methylome_all.txt'
 	shell:
 		'cat {input.forw} {input.rev}|sort -k1,1 -k2,2n|uniq > {output}'
+
+rule brat_convert2sam:
+	input:
+		f1 = 'mapping/{sample}_pair_results.nodupl',
+		f2 = 'mapping/{sample}_single_results.nodupl'
+	output:
+		prefix = 'sam/{sample}_mapped',
+		forw = 'sam/{sample}_mapped_forw.sam',
+		rev = 'sam/{sample}_mapped_rev.sam'
+	shell:
+		"if [ -f {output.forw} ]; then rm {output.forw} {output.rev}; fi; touch {output.prefix}; brat_bw-2.0.1/convert-to-sam -P {output.prefix} -p {input.f1} -s {input.f2}"
