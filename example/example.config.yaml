@@ -23,7 +23,7 @@ samples:
 Rscript_path: /cluster/home/xfu/R/3.5.1/bin/Rscript
 conda_path: /cluster/home/xfu/miniconda2/envs/gmatic/bin
 index: /cluster/home/xfu/Gmatic7/genome/tair10/BRAT-bw
-ref_file: /cluster/home/xfu/Gmatic7/genome/tair10/file_with_references.txt
+ref_file: /cluster/home/xfu/Gmatic7/genome/tair10/file_with_references_HPC.txt
 
 # on local machine
 # Rscript_path: /home/xfu/R/3.2.4/bin/Rscript
