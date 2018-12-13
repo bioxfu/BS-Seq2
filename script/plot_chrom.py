@@ -59,4 +59,4 @@ for name, length in entries:
 	# This chromosome is done
 	chr_diagram.add(cur_chromosome)
 
-chr_diagram.draw(sample_name+"_DMR_chrom.pdf", sample_name)
+chr_diagram.draw("figure/"+sample_name+"_DMR_chrom.pdf", sample_name)
