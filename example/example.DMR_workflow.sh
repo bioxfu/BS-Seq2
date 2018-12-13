@@ -19,13 +19,14 @@ NUM_LIB=10
 MUT=( $MUT1_1 $MUT1_2 $MUT2_1 $MUT2_2 $MUT3_1 $MUT3_2 $MUT4_1 $MUT4_2 )
 ALL=( $MUT1_1 $MUT1_2 $MUT2_1 $MUT2_2 $MUT3_1 $MUT3_2 $MUT4_1 $MUT4_2 $WT_1 $WT_2 )
 SAM=( $MUT1 $MUT2 $MUT3 $MUT4 )
+SAM2=( $WT $MUT1 $MUT2 $MUT3 $MUT4 )
 
 TXDB=/cluster/home/xfu/Gmatic7/gene/tair10/txdb/tair10_txdb.sqlite
 GENE_ANNO=/cluster/home/xfu/Gmatic7/gene/tair10/tair10_gene_anno.tsv
 IGV=/cluster/home/xfu/igv/genomes/tair10.genome
 GENE=/cluster/home/xfu/Gmatic7/gene/tair10/tair10_gene.bed
 TE=/cluster/home/xfu/Gmatic7/gene/tair10/tair10_TE.bed
-
+Rscript=$HOME/R/3.5.1/bin/Rscript
 
 ## Retaining the cytosines that have depth >=4 in all libraries
 mkdir dep4
@@ -60,13 +61,15 @@ printf '%s\n' "${SAM[@]}"|parallel --gnu "./script/DMR_composition.sh DMR/{}_mer
 printf '%s\n' "${SAM[@]}"|parallel --gnu "./script/DMR_composition.sh DMR/{}_merged_DMR_hyper.bed $GENE $TE"
 
 ## draw Venn diagram of DMR
-python script/venn_maker.py DMR/${MUT1}_merged_DMR_hyper.bed,DMR/${MUT2}_merged_DMR_hyper.bed,DMR/${MUT3}_merged_DMR_hyper.bed ${MUT1},${MUT2},${MUT3} figure/DMR_hyper_${MUT1}_${MUT2}_${MUT3}.png
-python script/venn_maker.py DMR/${MUT1}_merged_DMR_hypo.bed,DMR/${MUT2}_merged_DMR_hypo.bed,DMR/${MUT3}_merged_DMR_hypo.bed ${MUT1},${MUT2},${MUT3} figure/DMR_hypo_${MUT1}_${MUT2}_${MUT3}.png
+python script/venn_maker.py DMR/${MUT1}_merged_DMR_hyper.bed,DMR/${MUT2}_merged_DMR_hyper.bed,DMR/${MUT3}_merged_DMR_hyper.bed ${MUT1},${MUT2},${MUT3} figure/DMR_hyper_${MUT1}_${MUT2}_${MUT3}.pdf $Rscript
+python script/venn_maker.py DMR/${MUT1}_merged_DMR_hypo.bed,DMR/${MUT2}_merged_DMR_hypo.bed,DMR/${MUT3}_merged_DMR_hypo.bed ${MUT1},${MUT2},${MUT3} figure/DMR_hypo_${MUT1}_${MUT2}_${MUT3}.pdf $Rscript
 
 ## build track for IGV
 mkdir track
 printf '%s\n' "${ALL[@]}"|parallel --gnu "script/dep4_to_bedgraph.sh dep4/{}_dep4_Meth.txt > track/{}_dep4_Meth.bedgraph"
-printf '%s\n' "${ALL[@]}"|parallel --gnu "igvtools toTDF track/{}_dep4_Meth.bedgraph track/{}_dep4_Meth.tdf $IGV"
+printf '%s\n' "${SAM2[@]}"|parallel --gnu "cat track/{}_[0-9]_dep4_Meth.bedgraph|sortBed|groupBy -g 1,2,3 -c 4 -o mean > track/{}_dep4_Meth.bedgraph"
+printf '%s\n' "${SAM2[@]}"|parallel --gnu "igvtools toTDF track/{}_dep4_Meth.bedgraph track/{}_dep4_Meth.tdf $IGV"
+
 
 ## Calculating the methylation level
 #mkdir meth
