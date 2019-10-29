@@ -10,7 +10,7 @@ output_pie <- argv[5]
 
 peak <- readPeakFile(input_bed)
 txdb <- loadDb(sqlite)
-ganno <- read.table(gene_anno_file, sep='\t', header = T, quote = '', row.names = 1)
+ganno <- read.table(gene_anno_file, sep='\t', header = T, quote = '', row.names = 1, comment.char = '')
 
 gene_anno <- function(x) {
   peakAnno <- annotatePeak(x, TxDb=txdb, tssRegion = c(-2000,0))
