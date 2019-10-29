@@ -10,7 +10,7 @@ rownames(hyper_dfm) <- geneId
 colnames(hyper_dfm) <- sub('anno/', '', sub('_hyper_list_anno.xls', '', hyper_files))
 
 for (i in 1:ncol(hyper_dfm)) {
-  anno <- read.table(hyper_files[i], header = T, sep = '\t', quote = '')
+  anno <- read.table(hyper_files[i], header = T, sep = '\t', quote = '', comment.char = '')
   anno <- anno[anno$annotation != 'Distal Intergenic', ]
   hyper_dfm[rownames(hyper_dfm) %in% anno$geneId, i] <- hyper_dfm[rownames(hyper_dfm) %in% anno$geneId, i] + 1
 }
@@ -28,7 +28,7 @@ rownames(hypo_dfm) <- geneId
 colnames(hypo_dfm) <- sub('anno/', '', sub('_hypo_list_anno.xls', '', hypo_files))
 
 for (i in 1:ncol(hypo_dfm)) {
-  anno <- read.table(hypo_files[i], header = T, sep = '\t', quote = '')
+  anno <- read.table(hypo_files[i], header = T, sep = '\t', quote = '', comment.char = '')
   anno <- anno[anno$annotation != 'Distal Intergenic', ]
   hypo_dfm[rownames(hypo_dfm) %in% anno$geneId, i] <- hypo_dfm[rownames(hypo_dfm) %in% anno$geneId, i] + 1
 }
