@@ -1,6 +1,6 @@
 argv <- commandArgs(T)
 gene_anno_file <- argv[1]
-ganno <- read.table(gene_anno_file, sep='\t', header = T, quote = '', row.names = 1)
+ganno <- read.table(gene_anno_file, sep='\t', header = T, quote = '', row.names = 1, comment.char = '')
 
 ## hyper
 geneId <- read.table('anno/hyper_geneId')$V1
